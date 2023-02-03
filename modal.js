@@ -26,20 +26,20 @@ let input = document.querySelectorAll("input");
 
 let reg = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
 
-
 function radio() {
+  
+  ValCheck.innerText = "";
   if (location1.checked !== false || location2.checked !== false || location3.checked !== false || location4.checked !== false || location5.checked !== false || location6.checked !== false) {
-    ValCheck.innerText = "";
     return true;
   } else {
-    ValCheck.innerText = "Veuillez selectionner un tournoi";
+    ValCheck.innerText = "Vous devez choisir une option.";
     return false;
   }
 }
 
 function nom() {
   if (first.value.length < 2) {
-    ValPrenom.innerText = "le champs doit contenir au moins 2 caractères";
+    ValPrenom.innerText = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
     first.focus();
     return false;
   } else {
@@ -50,7 +50,7 @@ function nom() {
 
 function prenom() {
   if (last.value.length < 2) {
-    ValNom.innerText = "le champs doit contenir au moins 2 caractères";
+    ValNom.innerText = "Veuillez entrer 2 caractères ou plus pour le champ du Prenom.";
     last.focus();
     return false;
   } else {
@@ -76,7 +76,7 @@ function mail() {
 
 function date() {
   if (birthdate.value == "") {
-    ValBirth.innerText = "la date doit etre valide";
+    ValBirth.innerText = "Vous devez entrer votre date de naissance.";
     ValBirth.focus();
     return false;
   } else {
@@ -90,7 +90,7 @@ function date() {
       birthdate.focus();
       return false;
     } else if (timestampPasse > entrer) {
-      ValBirth.innerText = "la date doit etre superieur a 1970!";
+      ValBirth.innerText = "la date doit etre supérieur a 1970!";
       birthdate.focus();
       return false;
     } else {
@@ -102,11 +102,11 @@ function date() {
 
 function qte() {
   if (quantity.value.trim() == "") {
-    ValQte.innerText = "la quantit2 ne doit pas etre vide";
+    ValQte.innerText = "la quantité ne doit pas être vide";
     quantity.focus();
     return false;
   } else if (quantity.value < 1 && quantity.value > 100) {
-    ValQte.innerText = "la quantit2 doit etre comprise entre 0 et 99";
+    ValQte.innerText = "la quantité doit être comprise entre 0 et 99";
     quantity.focus();
     return false;
   } else if (quantity.value > 1 && quantity.value < 100) {
@@ -118,7 +118,7 @@ function qte() {
 function checkbox() {
   if (!checkbox1.checked) {
     console.log(checkbox1.value);
-    ValCond.innerText = "Veuillez accepter les conditions d'utilisation";
+    ValCond.innerText = "Vous devez vérifier que vous acceptez les termes et conditions.";
     checkbox1.focus();
     return false;
   } else if (checkbox1.checked) {
@@ -131,22 +131,22 @@ function checkbox() {
 
 function validate() {
 
-  // if (nom() == true && prenom() == true && mail() == true && date() == true && qte() == true && radio() == true && checkbox() == true) {
-  //   return true;
-  // } else {
-  //   for (var i = 0; i < input.length; i++) {
-  //     if (input[i].value === "") {
-  //       ValPrenom.innerText = "Veuillez remplir tous les champs";
-  //       ValNom.innerText = "Veuillez remplir tous les champs";
-  //       ValMail.innerText = "Veuillez remplir tous les champs";
-  //       ValBirth.innerText = "Veuillez remplir tous les champs";
-  //       ValQte.innerText = "Veuillez remplir tous les champs";
-  //       ValCheck.innerText = "Veuillez remplir tous les champs";
-  //       return false;
-  //     }
-  //   }
-  //   return false;
-  // };
+  if (nom() == true && prenom() == true && mail() == true && date() == true && qte() == true && radio() == true && checkbox() == true) {
+    return true;
+  } else {
+    for (var i = 0; i < input.length; i++) {
+      if (input[i].value === "") {
+        ValPrenom.innerText = "Le formulaire doit être valide";
+        ValNom.innerText = "Le formulaire doit être valide";
+        ValMail.innerText = "Le formulaire doit être valide";
+        ValBirth.innerText = "Le formulaire doit être valide";
+        ValQte.innerText = "Le formulaire doit être valide";
+        ValCheck.innerText = "Le formulaire doit être valide";
+        return false;
+      }
+    }
+    return false;
+  };
 
 }
 
@@ -177,7 +177,9 @@ function launchModal() {
 
 
 function close(){
-  formData.style.display = "none";
+ 
+  modalbg.style.display = "none";
+  return true;
 }
 
 
@@ -186,15 +188,18 @@ let btn = document.querySelector("#myBtn");
 let span = document.querySelector(".close");
 
 btn.onclick = function(){
-  modal.style.display = "block";
+  if(validate()==false){
+    return false;
+  }else {
+    modal.style.display = "block";
   return false;
+  }
+  
 }
 
 span.onclick = function(){
   modal.style.display = "none";
-
 }
-
 
 function cl(){
   modal.style.display = "none";
